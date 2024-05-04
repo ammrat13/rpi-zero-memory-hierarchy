@@ -14,7 +14,7 @@ CFLAGS = \
 	-ffreestanding -nostdlib \
 	-ffunction-sections -fdata-sections \
 	-mcpu=arm1176jzf-s
-LDFLAGS = -nostdlib -T ldscript
+LDFLAGS = -nostdlib -T aux/ldscript
 
 .PHONY: all
 all: $(PROG).bin
