@@ -1,0 +1,9 @@
+# Ignore build files
+*.bin
+*.elf
+*.o
+*.d
+
+# Ignore IDE files
+.cache
+compile_commands.json

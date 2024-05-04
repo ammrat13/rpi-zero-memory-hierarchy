@@ -1,0 +1,32 @@
+ENTRY(_start)
+
+MEMORY {
+    /*
+        The bootloader for CS 240LX expects the program to start at 0x8000, so
+        we follow that convention for RAM. Everything has to go in RAM since
+        we'll be dumping a blob to send to the bootloader. We also don't use all
+        of RAM since we need space for the translation table and the array.
+    */
+    ram (wxai) : ORIGIN = 0x8000, LENGTH = 0xf8000
+}
+
+SECTIONS {
+
+    /* The bootloader will jump to 0x8000, so make sure there's code there. */
+    .startup : {
+        KEEP(*(.startup))
+    } >ram
+
+    .text : { *(.text*) } >ram
+    .rodata : { *(.rodata*) } >ram
+    .data : { *(.data*) } >ram
+
+    /* The .bss section has to be zeroed out on startup. */
+    .bss : ALIGN(4) {
+        __bss_start = .;
+        *(.bss*)
+        *(COMMON)
+        . = ALIGN(4);
+        __bss_end = .;
+    }
+}
