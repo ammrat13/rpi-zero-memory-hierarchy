@@ -6,6 +6,9 @@ the bootloader from [CS 140E][1] and [CS 240LX][2]. It outputs the data needed
 to make a graph similar to Figure 2.33 in [Hennessy and Patterson][3].
 
 ## Output
+The `l2.csv` file shows the data with the L2 cache enabled, and the `nol2.csv`
+file shows the data with it disabled.
+
 * `arr_size`: The size of the test array in bytes
 * `arr_stride`: How many bytes consecutive reads were spaced apart by
 * `step_count`: How much data was moved in multiples of 256 MiB
