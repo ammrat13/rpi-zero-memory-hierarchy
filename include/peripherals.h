@@ -16,7 +16,7 @@ static void device_rmw(device_register_t addr, uint32_t mask, uint32_t value) {
   device_write(addr, (device_read(addr) & ~mask) | value);
 }
 
-static void device_barrier() {
+static inline void device_barrier() {
   uint32_t scratch;
   asm volatile (
     "mcr p15, 0, %[scratch], c7, c10, 4\n"

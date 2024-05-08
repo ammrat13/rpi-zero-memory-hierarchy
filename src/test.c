@@ -1,8 +1,11 @@
 #include "test.h"
+#include "perfcount.h"
 #include "uart.h"
 
 void run_test(volatile uint32_t *dut) {
-  uart_puts("arr_size,arr_stride,step_count,elapsed_usec\n");
+  uart_printf("arr_size,arr_stride,step_count,elapsed_usec,%s,%s\n",
+    perfcount_event_name(perfcount_get_event0()),
+    perfcount_event_name(perfcount_get_event1()));
 
   // Loop over all the array sizes from 1KiB to 256MiB
   for (size_t arr_size = 256 * 1024 * 1024; arr_size >= 1 * 1024; arr_size >>= 1) {
@@ -18,12 +21,19 @@ void run_test(volatile uint32_t *dut) {
       // Warm up the caches before doing the real test
       run_test_asm(dut, arr_size - 1, arr_stride, arr_size / 4);
 
-      // Run the real test
+      // Run the real test. Read the performance counters
+      uint32_t cr0_s = perfcount_get_cr0();
+      uint32_t cr1_s = perfcount_get_cr1();
       while (elapsed_usec < timeout_usec) {
         step_count++;
         elapsed_usec += run_test_asm(dut, arr_size - 1, arr_stride, step);
       }
-      uart_printf("%u,%u,%u,%u\n", arr_size, arr_stride, step_count, elapsed_usec);
+      uint32_t cr0_e = perfcount_get_cr0();
+      uint32_t cr1_e = perfcount_get_cr1();
+
+      uart_printf("%u,%u,%u,%u,%u,%u\n",
+        arr_size, arr_stride, step_count, elapsed_usec,
+        cr0_e - cr0_s, cr1_e - cr1_s);
     }
   }
 }

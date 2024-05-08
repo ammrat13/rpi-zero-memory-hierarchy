@@ -3,6 +3,7 @@
 #include "id.h"
 #include "uart.h"
 #include "mmu.h"
+#include "perfcount.h"
 
 #include "test.h"
 
@@ -77,6 +78,8 @@ int main(void) {
   uart_puts("About to enable MMU...\n");
   mmu_enable();
   uart_puts("MMU enabled!\n");
+
+  perfcount_set(PERFCOUNT_EVENT_dutlb_miss, PERFCOUNT_EVENT_tlb_miss);
 
   // Run the test
   run_test(dut);

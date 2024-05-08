@@ -1,7 +1,7 @@
 PROG = memory-heirarchy
 OFILES = \
 	src/startup.o src/main.o src/test.o src/test-asm.o \
-	src/uart.o \
+	src/uart.o src/perfcount.o \
 	src/mmu.o
 
 CC = arm-none-eabi-gcc
