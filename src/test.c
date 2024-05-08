@@ -14,7 +14,7 @@ void run_test(volatile uint32_t *dut) {
       // Check for timeout every 256MiB of data, and keep track of how many
       // "steps" elapsed
       const size_t step = 256 * 1024 * 1024 / 4;
-      const size_t timeout_usec = 90000000;
+      const size_t timeout_usec = 15000000;
       size_t step_count = 0;
       size_t elapsed_usec = 0;
 
