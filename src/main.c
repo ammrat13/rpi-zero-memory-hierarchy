@@ -7,6 +7,13 @@
 
 #include "test.h"
 
+// PARAMETERS: -----------------------------------------------------------------
+
+const perfcount_event_t EVENT0 = PERFCOUNT_EVENT_dutlb_miss;
+const perfcount_event_t EVENT1 = PERFCOUNT_EVENT_tlb_miss;
+
+// -----------------------------------------------------------------------------
+
 static volatile uint32_t *const translation_table = (void *)0x100000;
 static volatile uint32_t *const dut = (void *)0x1000000;
 
@@ -79,7 +86,7 @@ int main(void) {
   mmu_enable();
   uart_puts("MMU enabled!\n");
 
-  perfcount_set(PERFCOUNT_EVENT_dutlb_miss, PERFCOUNT_EVENT_tlb_miss);
+  perfcount_set(EVENT0, EVENT1);
 
   // Run the test
   run_test(dut);
